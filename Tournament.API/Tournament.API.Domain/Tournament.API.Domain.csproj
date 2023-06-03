@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Participants\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Tournament.API.Domain.Shared\Tournament.API.Domain.Shared.csproj" />
   </ItemGroup>
 
