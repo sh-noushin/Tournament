@@ -1,6 +1,5 @@
 ﻿using Tournament.API.Domain.Core;
 using Tournament.API.Domain.Shared.Tournaments;
-using Tournament.API.Domain.Tournaments.Ecxeptions;
 using Tournament.API.Domain.Tournaments.Exceptions;
 
 namespace Tournament.API.Domain.Tournaments
@@ -11,9 +10,9 @@ namespace Tournament.API.Domain.Tournaments
         public List<JumpAttempt> Attempts { get; private set; }
         private Tournament()
         {
-            Attempts = new List<JumpAttempt>(); 
+            Attempts = new List<JumpAttempt>();
         }
-             
+
         internal Tournament(string name)
         {
             SetName(name);
@@ -21,7 +20,7 @@ namespace Tournament.API.Domain.Tournaments
 
         internal void SetName(string name)
         {
-            if(string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
             {
                 throw new NullOrEmptyTournamentNameException();
             }
@@ -31,21 +30,21 @@ namespace Tournament.API.Domain.Tournaments
 
                 throw new TournamentNameLengthException();
             }
-           
+
             Name = name;
         }
 
         internal void AddAttempt(int participantId, int distance)
         {
-            
-            if(Attempts.Count(x => x.ParticipantId == participantId) >= TournamentConsts.MaxNumberOfJumps ) 
+
+            if (Attempts.Count(x => x.ParticipantId == participantId) >= TournamentConsts.MaxNumberOfJumps)
             {
-                
+
                 throw new MaximumNumberOfJumpsException(TournamentConsts.MaxNumberOfJumps);
             }
             var attempt = new JumpAttempt(Id, participantId);
             attempt.SetDistance(distance);
-            Attempts.Add(attempt);  
+            Attempts.Add(attempt);
 
         }
 
@@ -53,11 +52,10 @@ namespace Tournament.API.Domain.Tournaments
         {
             var attempt = Attempts.FirstOrDefault(x => x.ParticipantId == participantId &&
             x.Distance == distance);
-            if (attempt != null) 
+            if (attempt != null)
             {
-                Attempts.Remove(attempt);   
+                Attempts.Remove(attempt);
             }
         }
-
     }
 }

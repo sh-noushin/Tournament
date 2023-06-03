@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tournament.API.Domain.Shared.Tournaments;
 
-namespace Tournament.API.Domain.Tournaments.Ecxeptions
+namespace Tournament.API.Domain.Tournaments.Exceptions
 {
     public class TournamentNameLengthException : Exception
     {
