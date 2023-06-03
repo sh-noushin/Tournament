@@ -1,6 +1,7 @@
 ﻿using Tournament.API.Domain.Core;
 using Tournament.API.Domain.Shared.Tournaments;
 using Tournament.API.Domain.Tournaments.Ecxeptions;
+using Tournament.API.Domain.Tournaments.Exceptions;
 
 namespace Tournament.API.Domain.Tournaments
 {
@@ -20,23 +21,27 @@ namespace Tournament.API.Domain.Tournaments
 
         internal void SetName(string name)
         {
+            if(string.IsNullOrEmpty(name))
+            {
+                throw new NullOrEmptyTournamentNameException();
+            }
+
             if (name.Length > TournamentConsts.NameMaxLength)
             {
 
                 throw new TournamentNameLengthException();
             }
-            // TODO: Check for null
-
+           
             Name = name;
         }
 
         internal void AddAttempt(int participantId, int distance)
         {
             
-            if(Attempts.Count(x => x.ParticipantId == participantId) >= 3 ) 
+            if(Attempts.Count(x => x.ParticipantId == participantId) >= TournamentConsts.MaxNumberOfJumps ) 
             {
-                // TODO: Exception
-                throw new Exception();
+                
+                throw new MaximumNumberOfJumpsException(TournamentConsts.MaxNumberOfJumps);
             }
             var attempt = new JumpAttempt(Id, participantId);
             attempt.SetDistance(distance);

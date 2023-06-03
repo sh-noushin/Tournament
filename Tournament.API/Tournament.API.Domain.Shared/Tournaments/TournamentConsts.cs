@@ -10,5 +10,6 @@ namespace Tournament.API.Domain.Shared.Tournaments
     {
         public const int NameMaxLength = 20;
         public const int JumpDistanceMaxValue = 100;
+        public const int MaxNumberOfJumps = 3;
     }
 }

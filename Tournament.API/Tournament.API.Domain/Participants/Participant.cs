@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tournament.API.Domain.Core;
+using Tournament.API.Domain.Participants.Exceptions;
 
 namespace Tournament.API.Domain.Participants
 {
@@ -21,8 +22,8 @@ namespace Tournament.API.Domain.Participants
         { 
             if(string.IsNullOrEmpty(name))
             { 
-                //TODO: Exception
-                throw new ArgumentNullException("name"); 
+                
+                throw new NullOrEmptyParticipantNameOrLastNameException(); 
             }    
 
             Name = name;
@@ -31,8 +32,8 @@ namespace Tournament.API.Domain.Participants
         {
             if (string.IsNullOrEmpty(lastName))
             {
-                //TODO: Exception
-                throw new ArgumentNullException("lastName");
+                
+                throw new NullOrEmptyParticipantNameOrLastNameException();
             }
 
             LastName = lastName;
