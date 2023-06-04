@@ -7,8 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tournament.API.Application.Contract\Tournament.API.Application.Contract.csproj" />
+    <ProjectReference Include="..\Tournament.API.Application\Tournament.API.Application.csproj" />
+    <ProjectReference Include="..\Tournament.API.EntityFrameworkCore\Tournament.API.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
 </Project>

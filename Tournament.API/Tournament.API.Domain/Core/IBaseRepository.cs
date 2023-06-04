@@ -13,7 +13,7 @@ namespace Tournament.API.Domain.Core
         Task CreateAsync(TModel model);
         Task UpdateAsync(TModel model);
         Task DeleteAsync(TModel model);
-        Task DeleteAsync(TId id);
+        Task<TId> DeleteAsync(TId id);
         Task<TModel> GetAsync(TId id);
         Task<List<TModel>> GetListAsync();
         Task<List<TModel>> GetListAsync(Expression<Func<TModel, bool>> expression);

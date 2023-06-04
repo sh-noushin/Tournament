@@ -16,20 +16,22 @@ namespace Tournament.API.Domain.Participants
             _repository = repository;
         }
 
-        public Task<Participant> CreateAsync(string name, string lastName)
+        public async Task<Participant> CreateAsync(string name, string lastName)
         {
             var participant = new Participant(name, lastName);
-            return Task.FromResult(participant);
+            await _repository.CreateAsync(participant); 
+            return participant;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<int> DeleteAsync(int id)
         {
            if(!await _repository.AnyAsync(x => x.Id == id))
             {
                 throw new ParticipantNotExistsException(id);
             }
 
-            await _repository.DeleteAsync(id);  
+           return await _repository.DeleteAsync(id);  
+
         }
 
         public async Task<Participant> UpdateAsync(int id, string name, string lastName)
@@ -41,6 +43,7 @@ namespace Tournament.API.Domain.Participants
             }
             participant.SetName(name);
             participant.SetLastName(lastName);
+            await _repository.UpdateAsync(participant); 
             return participant; 
 
         }

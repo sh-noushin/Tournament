@@ -1,4 +1,5 @@
 ﻿using Tournament.API.Domain.Participants;
+using Tournament.API.Domain.Tournaments.Exceptions;
 
 namespace Tournament.API.Domain.Tournaments
 {
@@ -29,6 +30,7 @@ namespace Tournament.API.Domain.Tournaments
             }
 
             tournament.AddAttempt(participantId, distance);
+            await _repository.UpdateAsync(tournament);
             return tournament;
         }
 
@@ -41,12 +43,13 @@ namespace Tournament.API.Domain.Tournaments
                 throw new Exception();
             }
             var tournament = new Tournament(name);
+            await _repository.CreateAsync(tournament);
             return tournament;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<int> DeleteAsync(int id)
         {
-            await _repository.DeleteAsync(id);  
+           return await _repository.DeleteAsync(id);  
         }
 
         public async Task<Tournament> RemoveAttemtAsync(int tournamentId, int participantId, int distance)
@@ -54,11 +57,11 @@ namespace Tournament.API.Domain.Tournaments
             var tournament = await _repository.FindAsync(tournamentId);
             if(tournament == null)
             {
-                // TODO
-                throw new Exception();
+                throw new TournamentNotExistsException(tournamentId);
             }
 
             tournament.RemoveAttempt(participantId, distance);
+            await _repository.UpdateAsync(tournament);
             return tournament;
         }
 
@@ -67,11 +70,11 @@ namespace Tournament.API.Domain.Tournaments
             var tournamnet = await _repository.GetAsync(id);
             if (tournamnet == null)
             {
-                // TODO
-                throw new NotImplementedException();    
+                throw new TournamentNotExistsException(id);    
             }
 
             tournamnet.SetName(name);
+            await _repository.UpdateAsync(tournamnet);
             return tournamnet;
         }
 

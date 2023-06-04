@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.API.Web", "Tournament.API.Web\Tournament.API.Web.csproj", "{999FB0A6-B5DC-4324-B317-5A772D94BA62}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.API.EntityFrameworkCore", "Tournament.API.EntityFrameworkCore\Tournament.API.EntityFrameworkCore.csproj", "{FFE0379B-9821-4F98-868D-37E7260903D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.API.Domain", "Tournament.API.Domain\Tournament.API.Domain.csproj", "{4542624E-5EC1-4ACB-8632-B0976F3609D9}"
@@ -15,16 +13,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.API.Application"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.API.Application.Contract", "Tournament.API.Application.Contract\Tournament.API.Application.Contract.csproj", "{F39BDEAC-B2AE-4F1B-A437-A1EE3E929551}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.API.Web", "Tournament.API.Web\Tournament.API.Web.csproj", "{D9114271-3353-4D13-8069-E943693D020C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{999FB0A6-B5DC-4324-B317-5A772D94BA62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{999FB0A6-B5DC-4324-B317-5A772D94BA62}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{999FB0A6-B5DC-4324-B317-5A772D94BA62}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{999FB0A6-B5DC-4324-B317-5A772D94BA62}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FFE0379B-9821-4F98-868D-37E7260903D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FFE0379B-9821-4F98-868D-37E7260903D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFE0379B-9821-4F98-868D-37E7260903D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{F39BDEAC-B2AE-4F1B-A437-A1EE3E929551}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F39BDEAC-B2AE-4F1B-A437-A1EE3E929551}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F39BDEAC-B2AE-4F1B-A437-A1EE3E929551}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9114271-3353-4D13-8069-E943693D020C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9114271-3353-4D13-8069-E943693D020C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9114271-3353-4D13-8069-E943693D020C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9114271-3353-4D13-8069-E943693D020C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Tournament.API.Domain.Tournaments;
 using Tournament.API.Domain.Participants;
+using Tournament.API.Domain.Tournaments;
+using Domain = Tournament.API.Domain;
 
 namespace Tournament.API.EntityFrameworkCore
 {
@@ -17,11 +18,28 @@ namespace Tournament.API.EntityFrameworkCore
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           
+            modelBuilder.Entity<JumpAttempt>()
+
+                 .HasKey(x => new { x.TournamentId, x.ParticipantId, x.Distance });
+         
+
+            modelBuilder.Entity<Tournament.API.Domain.Tournaments.Tournament>()
+
+                .HasMany(x => x.Attempts)
+                .WithOne()
+                .HasForeignKey(x => x.TournamentId).IsRequired();
+
+            modelBuilder.Entity<Participant>()
+
+               .HasMany<JumpAttempt>()
+               .WithOne()
+               .HasForeignKey(x => x.ParticipantId).IsRequired();
+
         }
     }
 }

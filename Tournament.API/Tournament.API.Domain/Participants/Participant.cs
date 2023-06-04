@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace Tournament.API.Domain.Participants
         public string LastName { get; private set; }
         internal Participant(string name, string lastName)
         {
-            SetLastName(name);
+            SetName(name);
             SetLastName(lastName);  
         }
 

@@ -97,7 +97,7 @@ namespace Tournament.API.EntityFrameworkCore.Core
 
 
 
-        public async Task DeleteAsync(TId id)
+        public async Task<TId> DeleteAsync(TId id)
         {
             var model = await Db.Set<TModel>().FindAsync(id);
             if (model != null)
@@ -105,6 +105,8 @@ namespace Tournament.API.EntityFrameworkCore.Core
                 Db.Set<TModel>().Remove(model);
                 await Db.SaveChangesAsync();
             }
+
+            return id;
 
         }
 

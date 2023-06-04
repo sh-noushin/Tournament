@@ -12,6 +12,6 @@ namespace Tournament.API.Domain.Participants
     {
         public Task<Participant> CreateAsync(string name, string lastName);
         public Task<Participant> UpdateAsync(int id, string name, string lastName);
-        public Task DeleteAsync(int id);    
+        public Task<int> DeleteAsync(int id);    
     }
 }
