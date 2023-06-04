@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Tournament.API.Application.Contract.Core.Dtos.Requests;
+using Tournament.API.Application.Contract.Core.Dtos.Responses;
 using Tournament.API.Application.Contract.Participants.Dtos.Request;
 using Tournament.API.Application.Contract.Participants.Dtos.Response;
 using Tournament.API.Application.Contract.Tournaments;
@@ -45,10 +47,10 @@ namespace Tournament.API.Web.Controllers
 
 
         [HttpGet]
-        public async Task<List<TournamentDto>> GetListAsync([FromQuery] TournamentListInput input)
+        public async Task<PagedResultResponse<TournamentDto>> GetListAsync([FromQuery] TournamentListInput input)
         {
 
-            return await _tournamentService.GetListAsync(input);
+            return await _tournamentService.GetFilteredListAsync(input);
 
         }
 

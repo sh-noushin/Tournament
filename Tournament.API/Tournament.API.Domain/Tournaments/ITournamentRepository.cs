@@ -9,5 +9,7 @@ namespace Tournament.API.Domain.Tournaments
 {
     public interface ITournamentRepository : IBaseRepository<Tournament, int>
     {
+        Task<long> GetCountAsync(string filter);
+        public Task<List<Tournament>> GetFilteredListAsync(string filterText, string sorting, int skipCount = 0, int maxResultCount = 10);
     }
 }

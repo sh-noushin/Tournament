@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tournament.API.Application.Contract.Core;
+using Tournament.API.Application.Contract.Core.Dtos.Responses;
 using Tournament.API.Application.Contract.Participants.Dtos.Request;
 using Tournament.API.Application.Contract.Tournaments.Dtos.Request;
 using Tournament.API.Application.Contract.Tournaments.Dtos.Response;
@@ -20,6 +21,8 @@ namespace Tournament.API.Application.Contract.Tournaments
         public Task<TournamentDto> UpdateAsync(int id, TournamentUpdateInput input);
         public Task<TournamentDto> AddAttemptsAsync(TournamentAddAttemptInput input);
         public Task<TournamentDto> RemoveAttemptsAsync(TournamentRemoveAttemptInput input);
-       
+        Task<PagedResultResponse<TournamentDto>> GetFilteredListAsync(TournamentListInput filter);
+
+
     }
 }

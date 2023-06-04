@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tournament.API.Application.Contract.Core.Dtos.Responses;
 using Tournament.API.Application.Contract.Tournaments;
 using Tournament.API.Application.Contract.Tournaments.Dtos.Request;
 using Tournament.API.Application.Contract.Tournaments.Dtos.Response;
@@ -45,6 +46,18 @@ namespace Tournament.API.Application.Tournaments
         public async Task<TournamentDto> GetByIdAsync(int id)
         {
             return Mapper.Map<TournamentDto>(await _tournamentRepository.GetAsync(id));
+        }
+
+        public async Task<PagedResultResponse<TournamentDto>> GetFilteredListAsync(TournamentListInput filter)
+        {
+            long totalCount = await _tournamentRepository.GetCountAsync(filter.Name);
+            var items = await _tournamentRepository.GetFilteredListAsync(filter.Name, filter.Sorting, filter.SkipCount, filter.MaxResultCount);
+
+            return new PagedResultResponse<TournamentDto>()
+            {
+                TotalCount = totalCount,
+                Items = Mapper.Map<List<Domain.Tournaments.Tournament>, List<TournamentDto>>(items)
+            };
         }
 
         public async Task<List<TournamentDto>> GetListAsync(TournamentListInput input)
