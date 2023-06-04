@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Tournament.API.Application.Contract.Core.Dtos.Responses;
 using Tournament.API.Application.Contract.Participants;
 using Tournament.API.Application.Contract.Participants.Dtos.Request;
 using Tournament.API.Application.Contract.Participants.Dtos.Response;
+using Tournament.API.Application.Contract.Tournaments.Dtos.Request;
+using Tournament.API.Application.Contract.Tournaments.Dtos.Response;
 
 namespace Tournament.API.Web.Controllers
 {
@@ -39,11 +42,12 @@ namespace Tournament.API.Web.Controllers
             return Task.FromResult("Deleted").ToString();
         }
 
+       
         [HttpGet]
-        public async Task<List<ParticipantDto>> GetListAsync([FromQuery]  ParticipantListInput input)
+        public async Task<PagedResultResponse<ParticipantDto>> GetListAsync([FromQuery] ParticipantListInput input)
         {
-            
-            return await _participantService.GetListAsync(input);
+
+            return  await _participantService.GetFilteredListAsync(input);
 
         }
 

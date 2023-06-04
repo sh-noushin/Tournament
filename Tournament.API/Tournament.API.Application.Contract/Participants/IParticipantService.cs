@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tournament.API.Application.Contract.Core;
+using Tournament.API.Application.Contract.Core.Dtos.Responses;
 using Tournament.API.Application.Contract.Participants.Dtos.Request;
 using Tournament.API.Application.Contract.Participants.Dtos.Response;
 using Tournament.API.Application.Contract.Tournaments.Dtos.Request;
@@ -18,5 +19,7 @@ namespace Tournament.API.Application.Contract.Participants
         public Task<ParticipantDto> CreateAsync(ParticipantCreateInput input);
         public Task<int> DeleteAsync(int id);
         public Task<ParticipantDto> UpdateAsync(int id, ParticipantUpdateInput input);
+        Task<PagedResultResponse<ParticipantDto>> GetFilteredListAsync(ParticipantListInput filter);
+
     }
 }

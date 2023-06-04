@@ -5,9 +5,11 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using Tournament.API.Application.Contract.Core.Dtos.Responses;
 using Tournament.API.Application.Contract.Participants;
 using Tournament.API.Application.Contract.Participants.Dtos.Request;
 using Tournament.API.Application.Contract.Participants.Dtos.Response;
+using Tournament.API.Application.Contract.Tournaments.Dtos.Response;
 using Tournament.API.Application.Core;
 using Tournament.API.Domain.Participants;
 
@@ -43,9 +45,21 @@ namespace Tournament.API.Application.Participants
             return Mapper.Map<ParticipantDto>(await _participantRepository.GetAsync(id));
         }
 
+        public async Task<PagedResultResponse<ParticipantDto>> GetFilteredListAsync(ParticipantListInput filter)
+        {
+            long totalCount = await _participantRepository.GetCountAsync(filter.AnyFilter, filter.Name, filter.LastName);
+            var items = await _participantRepository.GetFilteredListAsync(filter.AnyFilter, filter.Name, filter.LastName, filter.Sorting, filter.SkipCount, filter.MaxResultCount);
+
+            return new PagedResultResponse<ParticipantDto>()
+            {
+                TotalCount = totalCount,
+                Items = Mapper.Map<List<Participant>, List<ParticipantDto>>(items)
+            };
+        }
+
         public async Task<List<ParticipantDto>> GetListAsync(ParticipantListInput input)
         {
-            // TODO
+            
             return Mapper.Map<List<ParticipantDto>>(await _participantRepository.GetListAsync(x => true));
         }
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
+using System.Security.Cryptography.X509Certificates;
 using Tournament.API.Domain.Core.Extentions;
 using Tournament.API.Domain.Tournaments;
 using Tournament.API.EntityFrameworkCore.Core;
@@ -16,6 +17,7 @@ namespace Tournament.API.EntityFrameworkCore.Tournaments
         public async Task<long> GetCountAsync(string filter)
         {
             var query = Db.Tournaments.AsQueryable();
+            
             query = ApplyFilter(query, filter);
 
             return await query.CountAsync();
@@ -28,7 +30,7 @@ namespace Tournament.API.EntityFrameworkCore.Tournaments
             query = ApplyFilter(query, filterText)
                .OrderBy(!string.IsNullOrEmpty(sorting) ? sorting : "Id asc")
                .PageBy(skipCount, maxResultCount);
-            return await query.ToListAsync();  
+            return await query.ToListAsync();
         }
 
         protected IQueryable<Domain.Tournaments.Tournament> ApplyFilter(IQueryable<Domain.Tournaments.Tournament> query, string filtertext)
@@ -36,5 +38,7 @@ namespace Tournament.API.EntityFrameworkCore.Tournaments
             return query.WhereIf(!string.IsNullOrEmpty(filtertext), x => x.Name.Contains(filtertext));
 
         }
+
+
     }
 }
