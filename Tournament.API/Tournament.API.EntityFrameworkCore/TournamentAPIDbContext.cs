@@ -24,14 +24,15 @@ namespace Tournament.API.EntityFrameworkCore
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<JumpAttempt>()
-
-                 .HasKey(x => new { x.TournamentId, x.ParticipantId, x.Distance });
+                 
+                 .HasKey(x => new { x.TournamentId, x.ParticipantId, x.Distance }).IsClustered();
+                 
          
 
             modelBuilder.Entity<Tournament.API.Domain.Tournaments.Tournament>()
 
                 .HasMany(x => x.Attempts)
-                .WithOne()
+                .WithOne(x => x.Tournament)
                 .HasForeignKey(x => x.TournamentId).IsRequired();
 
             modelBuilder.Entity<Participant>()

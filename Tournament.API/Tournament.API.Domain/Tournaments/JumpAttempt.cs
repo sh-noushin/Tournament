@@ -15,6 +15,7 @@ namespace Tournament.API.Domain.Tournaments
 
         public int ParticipantId { get; private set; }
         public int Distance { get; private set; }
+        public Tournament Tournament { get; set; }
         public JumpAttempt(int tournamentId, int participantId)
         {
             TournamentId = tournamentId;

@@ -1,4 +1,5 @@
 ﻿using Tournament.API.Domain.Participants;
+using Tournament.API.Domain.Participants.Exceptions;
 using Tournament.API.Domain.Tournaments.Exceptions;
 
 namespace Tournament.API.Domain.Tournaments
@@ -17,16 +18,16 @@ namespace Tournament.API.Domain.Tournaments
         public async Task<Tournament> AddAttemtAsync(int tournamnetId, int participantId, int distance)
         {
            
-            if(! await _participantRepository.AnyAsync(x => x.Id == participantId))
+            if(!(await _participantRepository.AnyAsync(x => x.Id == participantId)))
             {
-                // TODO
-                throw new Exception();
+               
+                throw new ParticipantNotExistsException(participantId);
             }
-            var tournament = await _repository.FindAsync(x => x.Id == tournamnetId);
+            var tournament = await _repository.FindAsync(tournamnetId);
             if (tournament == null)
             {
-                // TODO
-                throw new Exception();
+               
+                throw new TournamentNotExistsException(tournamnetId);
             }
 
             tournament.AddAttempt(participantId, distance);
@@ -39,8 +40,8 @@ namespace Tournament.API.Domain.Tournaments
             
             if(await _repository.AnyAsync(x => x.Name == name))
             {
-                // TODO: exception
-                throw new Exception();
+                
+                throw new TournamentAlreadyExsistsException(name);
             }
             var tournament = new Tournament(name);
             await _repository.CreateAsync(tournament);

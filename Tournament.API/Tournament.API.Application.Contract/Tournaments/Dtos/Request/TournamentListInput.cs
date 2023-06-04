@@ -8,5 +8,6 @@ namespace Tournament.API.Application.Contract.Tournaments.Dtos.Request
 {
     public class TournamentListInput
     {
+        public int Teast { get; set; }
     }
 }

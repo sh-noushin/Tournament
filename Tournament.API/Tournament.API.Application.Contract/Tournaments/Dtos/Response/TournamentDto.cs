@@ -8,5 +8,6 @@ namespace Tournament.API.Application.Contract.Tournaments.Dtos.Response
 {
     public class TournamentDto
     {
+        public string Name { get; set; }
     }
 }

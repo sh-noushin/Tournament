@@ -47,5 +47,12 @@ namespace Tournament.API.Web.Controllers
 
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ParticipantDto> GetByIdAsync(int id)
+        {
+            return await _participantService.GetByIdAsync(id);
+        }
+
     }
 }

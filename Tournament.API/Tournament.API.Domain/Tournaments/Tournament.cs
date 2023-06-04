@@ -51,7 +51,7 @@ namespace Tournament.API.Domain.Tournaments
         internal void RemoveAttempt(int participantId, int distance)
         {
             var attempt = Attempts.FirstOrDefault(x => x.ParticipantId == participantId &&
-            x.Distance == distance);
+                x.Distance == distance);
             if (attempt != null)
             {
                 Attempts.Remove(attempt);

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tournament.API.EntityFrameworkCore;
 
@@ -10,9 +11,11 @@ using Tournament.API.EntityFrameworkCore;
 namespace Tournament.API.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(TournamentAPIDbContext))]
-    partial class TournamentAPIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230604160950_UndoChanges")]
+    partial class UndoChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,13 +90,11 @@ namespace Tournament.API.EntityFrameworkCore.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Tournament.API.Domain.Tournaments.Tournament", "Tournament")
+                    b.HasOne("Tournament.API.Domain.Tournaments.Tournament", null)
                         .WithMany("Attempts")
                         .HasForeignKey("TournamentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Tournament");
                 });
 
             modelBuilder.Entity("Tournament.API.Domain.Tournaments.Tournament", b =>
