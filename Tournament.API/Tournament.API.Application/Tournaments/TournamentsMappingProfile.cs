@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tournament.API.Application.Contract.Tournaments.Dtos.Response;
+using Tournament.API.Domain.Tournaments.Views;
 
 namespace Tournament.API.Application.Tournaments
 {
@@ -13,6 +14,7 @@ namespace Tournament.API.Application.Tournaments
         public TournamentsMappingProfile()
         {
             CreateMap<Domain.Tournaments.Tournament, TournamentDto>();
+            CreateMap<TournamentWithAttemptsView, TournamentWithAttemptsDto>();
         }
     }
 }

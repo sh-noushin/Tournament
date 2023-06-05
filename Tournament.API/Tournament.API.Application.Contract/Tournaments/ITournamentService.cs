@@ -15,13 +15,13 @@ namespace Tournament.API.Application.Contract.Tournaments
     public interface ITournamentService : IBaseService
     {
         public Task<TournamentDto> GetByIdAsync(int id);
-        public Task<List<TournamentDto>> GetListAsync(TournamentListInput input);
+        public Task<List<TournamentWithAttemptsDto>> GetListAsync(TournamentListInput input);
         public Task<TournamentDto> CreateAsync(TournamentCreateInput input);
         public Task<int> DeleteAsync(int id);
         public Task<TournamentDto> UpdateAsync(int id, TournamentUpdateInput input);
         public Task<TournamentDto> AddAttemptsAsync(TournamentAddAttemptInput input);
         public Task<TournamentDto> RemoveAttemptsAsync(TournamentRemoveAttemptInput input);
-        Task<PagedResultResponse<TournamentDto>> GetFilteredListAsync(TournamentListInput filter);
+        Task<PagedResultResponse<TournamentWithAttemptsDto>> GetFilteredListAsync(TournamentListInput filter);
 
 
     }

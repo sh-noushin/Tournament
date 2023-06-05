@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Tournament.API.Domain.Core;
@@ -13,7 +15,7 @@ namespace Tournament.API.EntityFrameworkCore.Core
     public abstract class BaseRepository<TDbContext, TModel, TId> : IBaseRepository<TModel, TId>
         where TDbContext : DbContext
         where TModel : BaseEntity<TId>
-
+       
     {
         protected readonly TDbContext Db;
 
@@ -30,40 +32,65 @@ namespace Tournament.API.EntityFrameworkCore.Core
         }
 
 
-        public async Task<TModel> GetAsync(TId id)
+        public async Task<TModel> GetAsync(TId id, params Expression<Func<TModel, object>>[] includes)
         {
-            var model = await Db.Set<TModel>().FindAsync(id);
+            var query = Db.Set<TModel>().AsQueryable();
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            var model = await query.FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (model == null)
             {
                 throw new EntityNotFoundException();
             }
-            return model;
+            return model;   
         }
 
 
-        public async Task<List<TModel>> GetListAsync()
+        public async Task<List<TModel>> GetListAsync(params Expression<Func<TModel, object>>[] includes)
         {
-            await QueryableAsync();
-            return await Db.Set<TModel>().ToListAsync();
-
-
+            var query = Db.Set<TModel>().AsQueryable();
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return await query.ToListAsync();
+            
         }
 
 
 
-        public async Task<List<TModel>> GetListAsync(Expression<Func<TModel, bool>> expression)
+        public async Task<List<TModel>> GetListAsync(Expression<Func<TModel, bool>> expression, params Expression<Func<TModel, object>>[] includes)
         {
-            return await Db.Set<TModel>().Where(expression).ToListAsync();
+            var query = Db.Set<TModel>().AsQueryable();
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return await query.Where(expression).ToListAsync();
+
         }
 
 
+
+        public async Task<TModel> FindAsync(TId id, params Expression<Func<TModel, object>>[] includes)
+        {
+            var query = Db.Set<TModel>().AsQueryable();
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.FirstOrDefaultAsync(x => x.Id.Equals(id));
+
+        }
 
         public async Task<TModel> FindAsync(TId id)
         {
             return await Db.Set<TModel>().FindAsync(id);
+
         }
-
-
 
         public async Task<TModel> FindAsync(Expression<Func<TModel, bool>> expression)
         {

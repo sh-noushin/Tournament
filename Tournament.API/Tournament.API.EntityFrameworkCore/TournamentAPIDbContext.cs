@@ -9,6 +9,7 @@ namespace Tournament.API.EntityFrameworkCore
     {
         public DbSet<Domain.Tournaments.Tournament> Tournaments { get; set; }
         public DbSet<Participant> Participants { get; set; }
+        public DbSet<JumpAttempt> JumpAttempts { get; set; }
 
         public TournamentAPIDbContext(DbContextOptions options)
             : base(options)
@@ -30,7 +31,7 @@ namespace Tournament.API.EntityFrameworkCore
          
 
             modelBuilder.Entity<Tournament.API.Domain.Tournaments.Tournament>()
-
+                
                 .HasMany(x => x.Attempts)
                 .WithOne(x => x.Tournament)
                 .HasForeignKey(x => x.TournamentId).IsRequired();

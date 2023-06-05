@@ -23,7 +23,7 @@ namespace Tournament.API.Domain.Tournaments
                
                 throw new ParticipantNotExistsException(participantId);
             }
-            var tournament = await _repository.FindAsync(tournamnetId);
+            var tournament = await _repository.FindAsync(tournamnetId, x => x.Attempts);
             if (tournament == null)
             {
                
@@ -55,8 +55,9 @@ namespace Tournament.API.Domain.Tournaments
 
         public async Task<Tournament> RemoveAttemtAsync(int tournamentId, int participantId, int distance)
         {
-            var tournament = await _repository.FindAsync(tournamentId);
-            if(tournament == null)
+            var tournament = await _repository.FindAsync(tournamentId, x => x.Attempts);
+
+            if (tournament == null)
             {
                 throw new TournamentNotExistsException(tournamentId);
             }

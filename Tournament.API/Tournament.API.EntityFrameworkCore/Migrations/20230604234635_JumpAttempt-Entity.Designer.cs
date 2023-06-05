@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tournament.API.EntityFrameworkCore;
 
@@ -10,9 +11,11 @@ using Tournament.API.EntityFrameworkCore;
 namespace Tournament.API.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(TournamentAPIDbContext))]
-    partial class TournamentAPIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230604234635_JumpAttempt-Entity")]
+    partial class JumpAttemptEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,6 +54,9 @@ namespace Tournament.API.EntityFrameworkCore.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Distance")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.HasKey("TournamentId", "ParticipantId", "Distance");

@@ -10,6 +10,7 @@ using Tournament.API.Application.Contract.Tournaments.Dtos.Request;
 using Tournament.API.Application.Contract.Tournaments.Dtos.Response;
 using Tournament.API.Application.Core;
 using Tournament.API.Domain.Tournaments;
+using Tournament.API.Domain.Tournaments.Views;
 
 namespace Tournament.API.Application.Tournaments
 {
@@ -48,22 +49,22 @@ namespace Tournament.API.Application.Tournaments
             return Mapper.Map<TournamentDto>(await _tournamentRepository.GetAsync(id));
         }
 
-        public async Task<PagedResultResponse<TournamentDto>> GetFilteredListAsync(TournamentListInput filter)
+        public async Task<PagedResultResponse<TournamentWithAttemptsDto>> GetFilteredListAsync(TournamentListInput filter)
         {
             long totalCount = await _tournamentRepository.GetCountAsync(filter.Name);
             var items = await _tournamentRepository.GetFilteredListAsync(filter.Name, filter.Sorting, filter.SkipCount, filter.MaxResultCount);
 
-            return new PagedResultResponse<TournamentDto>()
+            return new PagedResultResponse<TournamentWithAttemptsDto>()
             {
                 TotalCount = totalCount,
-                Items = Mapper.Map<List<Domain.Tournaments.Tournament>, List<TournamentDto>>(items)
+                Items = Mapper.Map<List<TournamentWithAttemptsView>, List<TournamentWithAttemptsDto>>(items)
             };
         }
 
-        public async Task<List<TournamentDto>> GetListAsync(TournamentListInput input)
+        public async Task<List<TournamentWithAttemptsDto>> GetListAsync(TournamentListInput input)
         {
-            // TODO
-            return Mapper.Map<List<TournamentDto>>(await _tournamentRepository.GetListAsync(x => true));
+            
+            return Mapper.Map<List<TournamentWithAttemptsDto>>(await _tournamentRepository.GetListAsync(x => true));
         }
 
         public async Task<TournamentDto> RemoveAttemptsAsync(TournamentRemoveAttemptInput input)

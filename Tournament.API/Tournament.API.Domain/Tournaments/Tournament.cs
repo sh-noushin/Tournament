@@ -6,8 +6,9 @@ namespace Tournament.API.Domain.Tournaments
 {
     public class Tournament : BaseEntity<int>
     {
+
         public string Name { get; private set; }
-        public List<JumpAttempt> Attempts { get; private set; }
+        public virtual ICollection<JumpAttempt> Attempts { get; private set; }
         private Tournament()
         {
             Attempts = new List<JumpAttempt>();

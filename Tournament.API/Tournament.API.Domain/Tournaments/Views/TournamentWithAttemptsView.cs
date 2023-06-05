@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tournament.API.Application.Contract.Participants.Dtos.Response
+namespace Tournament.API.Domain.Tournaments.Views
 {
-    public class ParticipantDto
+    public class TournamentWithAttemptsView
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string LastName { get; set; }
+        public List<JumpAttemptView> Attempts { get; set; }
     }
 }

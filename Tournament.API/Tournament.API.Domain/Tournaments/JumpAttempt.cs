@@ -9,7 +9,7 @@ using Tournament.API.Domain.Tournaments.Ecxeptions;
 
 namespace Tournament.API.Domain.Tournaments
 {
-    public class JumpAttempt 
+    public class JumpAttempt
     {
         public int TournamentId { get; private set; }
 
