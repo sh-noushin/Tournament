@@ -13,8 +13,6 @@ import { Observable, throwError as _observableThrow, of as _observableOf } from 
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 
-import * as moment from 'moment';
-
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IParticipantClient {
@@ -330,7 +328,7 @@ export class ParticipantClient implements IParticipantClient {
 
 export interface ITournamentClient {
     create(input: TournamentCreateInput): Observable<string>;
-    getList(name?: string | undefined, skipCount?: number | undefined, maxResultCount?: number | undefined, sorting?: string | undefined): Observable<PagedResultResponseOfTournamentWithAttemptsDto>;
+    getList(): Observable<PagedResultResponseOfTournamentWithAttemptsDto>;
     update(id: number, input: TournamentUpdateInput): Observable<string>;
     delete(id: number): Observable<string>;
     getById(id: number): Observable<TournamentDto>;
@@ -405,24 +403,8 @@ export class TournamentClient implements ITournamentClient {
         return _observableOf(null as any);
     }
 
-    getList(name?: string | undefined, skipCount?: number | undefined, maxResultCount?: number | undefined, sorting?: string | undefined): Observable<PagedResultResponseOfTournamentWithAttemptsDto> {
-        let url_ = this.baseUrl + "/Tournament?";
-        if (name === null)
-            throw new Error("The parameter 'name' cannot be null.");
-        else if (name !== undefined)
-            url_ += "Name=" + encodeURIComponent("" + name) + "&";
-        if (skipCount === null)
-            throw new Error("The parameter 'skipCount' cannot be null.");
-        else if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
-        if (maxResultCount === null)
-            throw new Error("The parameter 'maxResultCount' cannot be null.");
-        else if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
-        if (sorting === null)
-            throw new Error("The parameter 'sorting' cannot be null.");
-        else if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+    getList(): Observable<PagedResultResponseOfTournamentWithAttemptsDto> {
+        let url_ = this.baseUrl + "/Tournament";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {

@@ -47,10 +47,10 @@ namespace Tournament.API.Web.Controllers
 
 
         [HttpGet]
-        public async Task<PagedResultResponse<TournamentWithAttemptsDto>> GetListAsync([FromQuery] TournamentListInput input)
+        public async Task<PagedResultResponse<TournamentWithAttemptsDto>> GetListAsync()
         {
 
-            return await _tournamentService.GetFilteredListAsync(input);
+            return await _tournamentService.GetFilteredListAsync(new TournamentListInput());
 
         }
 

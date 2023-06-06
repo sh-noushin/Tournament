@@ -12,6 +12,17 @@ using Tournament.API.EntityFrameworkCore.Tournaments;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+      "CorsPolicy",
+      builder => builder.WithOrigins("http://localhost:4200", "https://localhost:4200")
+      .AllowAnyMethod()
+      .AllowAnyHeader()
+      .AllowCredentials());
+});
+
 // Add builder.Services to the container.
 
 builder.Services.AddControllers();
@@ -28,6 +39,7 @@ builder.Services.AddSwaggerDocument(settings =>
         document.Info.Description = "";
     };
 });
+
 builder.Services.AddDbContext<TournamentAPIDbContext>(options =>
          options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -44,6 +56,7 @@ builder.Services.AddScoped<IParticipantService, ParticipantService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
+app.UseCors("CorsPolicy");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -51,7 +64,6 @@ if (app.Environment.IsDevelopment())
     app.UseOpenApi();
     app.UseSwaggerUi3();
 }
-
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
