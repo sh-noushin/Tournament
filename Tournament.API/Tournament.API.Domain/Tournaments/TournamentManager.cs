@@ -74,7 +74,11 @@ namespace Tournament.API.Domain.Tournaments
             {
                 throw new TournamentNotExistsException(id);    
             }
-
+            var model = await _repository.AnyAsync(x => x.Name == name);
+            if (model)
+            {
+                throw new TournamentAlreadyExsistsException(name);  
+            }
             tournamnet.SetName(name);
             await _repository.UpdateAsync(tournamnet);
             return tournamnet;

@@ -7,6 +7,7 @@ using Tournament.API.Application.Contract.Tournaments;
 using Tournament.API.Application.Contract.Tournaments.Dtos.Request;
 using Tournament.API.Application.Contract.Tournaments.Dtos.Response;
 using Tournament.API.Application.Tournaments;
+using Tournament.API.Domain.Tournaments.Exceptions;
 
 namespace Tournament.API.Web.Controllers
 {
@@ -22,6 +23,8 @@ namespace Tournament.API.Web.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(TournamentAlreadyExsistsException), StatusCodes.Status500InternalServerError)]
+
         public async Task<string> CreateAsync(TournamentCreateInput input)
         {
             await _tournamentService.CreateAsync(input);
@@ -30,8 +33,11 @@ namespace Tournament.API.Web.Controllers
 
         [HttpPut]
         [Route("{id}")]
+        [ProducesResponseType(typeof(TournamentAlreadyExsistsException), StatusCodes.Status500InternalServerError)]
+
         public async Task<string> UpdateAsync(int id, TournamentUpdateInput input)
         {
+
             await _tournamentService.UpdateAsync(id, input);
             return Task.FromResult("Updated").ToString();
 

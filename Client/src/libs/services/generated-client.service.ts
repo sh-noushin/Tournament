@@ -28,7 +28,7 @@ export interface IParticipantClient {
 })
 export class ParticipantClient implements IParticipantClient {
     private http: HttpClient;
-    private baseUrl: string;
+    private baseUrl: string = "https://localhost:7000";
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
@@ -37,7 +37,7 @@ export class ParticipantClient implements IParticipantClient {
     }
 
     create(input: ParticipantCreateInput): Observable<string> {
-        let url_ = this.baseUrl + "/Participant";
+        let url_ = "https://localhost:7000" + "/Participant";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -91,7 +91,7 @@ export class ParticipantClient implements IParticipantClient {
     }
 
     getList(anyFilter?: string | undefined, name?: string | undefined, lastName?: string | undefined, skipCount?: number | undefined, maxResultCount?: number | undefined, sorting?: string | undefined): Observable<PagedResultResponseOfParticipantDto> {
-        let url_ = this.baseUrl + "/Participant?";
+        let url_ = "https://localhost:7000" + "/Participant?";
         if (anyFilter === null)
             throw new Error("The parameter 'anyFilter' cannot be null.");
         else if (anyFilter !== undefined)
@@ -164,7 +164,7 @@ export class ParticipantClient implements IParticipantClient {
     }
 
     update(id: number, input: ParticipantUpdateInput): Observable<string> {
-        let url_ = this.baseUrl + "/Participant/{id}";
+        let url_ = "https://localhost:7000" + "/Participant/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -221,7 +221,7 @@ export class ParticipantClient implements IParticipantClient {
     }
 
     delete(id: number): Observable<string> {
-        let url_ = this.baseUrl + "/Participant/{id}";
+        let url_ = "https://localhost:7000" + "/Participant/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -274,7 +274,7 @@ export class ParticipantClient implements IParticipantClient {
     }
 
     getById(id: number): Observable<ParticipantDto> {
-        let url_ = this.baseUrl + "/Participant/{id}";
+        let url_ = "https://localhost:7000" + "/Participant/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -341,7 +341,7 @@ export interface ITournamentClient {
 })
 export class TournamentClient implements ITournamentClient {
     private http: HttpClient;
-    private baseUrl: string;
+    private baseUrl: string = "https://localhost:7000";
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
@@ -350,7 +350,7 @@ export class TournamentClient implements ITournamentClient {
     }
 
     create(input: TournamentCreateInput): Observable<string> {
-        let url_ = this.baseUrl + "/Tournament";
+        let url_ = "https://localhost:7000" + "/Tournament";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -404,7 +404,7 @@ export class TournamentClient implements ITournamentClient {
     }
 
     getList(): Observable<PagedResultResponseOfTournamentWithAttemptsDto> {
-        let url_ = this.baseUrl + "/Tournament";
+        let url_ = "https://localhost:7000" + "/Tournament";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -453,7 +453,7 @@ export class TournamentClient implements ITournamentClient {
     }
 
     update(id: number, input: TournamentUpdateInput): Observable<string> {
-        let url_ = this.baseUrl + "/Tournament/{id}";
+        let url_ = "https://localhost:7000" + "/Tournament/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -510,7 +510,7 @@ export class TournamentClient implements ITournamentClient {
     }
 
     delete(id: number): Observable<string> {
-        let url_ = this.baseUrl + "/Tournament/{id}";
+        let url_ =  "https://localhost:7000" + "/Tournament/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -563,7 +563,7 @@ export class TournamentClient implements ITournamentClient {
     }
 
     getById(id: number): Observable<TournamentDto> {
-        let url_ = this.baseUrl + "/Tournament/{id}";
+        let url_ = "https://localhost:7000" + "/Tournament/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -615,7 +615,7 @@ export class TournamentClient implements ITournamentClient {
     }
 
     addAttempts(input: TournamentAddAttemptInput): Observable<string> {
-        let url_ = this.baseUrl + "/Tournament/AddAttempts";
+        let url_ = "https://localhost:7000" + "/Tournament/AddAttempts";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -669,7 +669,7 @@ export class TournamentClient implements ITournamentClient {
     }
 
     removeAttempts(input: TournamentRemoveAttemptInput): Observable<string> {
-        let url_ = this.baseUrl + "/Tournament/RemoveAttempts";
+        let url_ = "https://localhost:7000" + "/Tournament/RemoveAttempts";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
