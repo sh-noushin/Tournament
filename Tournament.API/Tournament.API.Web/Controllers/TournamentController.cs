@@ -61,6 +61,16 @@ namespace Tournament.API.Web.Controllers
         }
 
         [HttpGet]
+        [Route("TopAttempts")]
+        public async Task<PagedResultResponse<TopAttemptsDto>> GetTopAttemptsAsync(string? filter)
+        {
+            var input = new TopAttemptsListInput();
+            input.TournamentName = filter;
+            return await _tournamentService.GetTopTenAttemptsListAsync(input);
+
+        }
+
+        [HttpGet]
         [Route("{id}")]
         public async Task<TournamentDto> GetByIdAsync(int id)
         {

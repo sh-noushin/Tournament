@@ -17,6 +17,9 @@ import { MatButtonModule } from '@angular/material/button';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
+import { AttemptListComponent } from './components/attempt-list/attempt-list.component';
+import { AttemptComponent } from './components/attempt/attempt.component';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -28,6 +31,8 @@ import { FormsModule } from '@angular/forms';
     TournamentComponent,
     ParticipantListComponent,
     ParticipantComponent,
+    AttemptListComponent,
+    AttemptComponent,
     
   ],
   imports: [
@@ -43,7 +48,8 @@ import { FormsModule } from '@angular/forms';
     MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
-    FormsModule
+    FormsModule,
+    MatSelectModule
     
     
     

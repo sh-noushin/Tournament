@@ -22,6 +22,7 @@ namespace Tournament.API.Application.Contract.Tournaments
         public Task<TournamentDto> AddAttemptsAsync(TournamentAddAttemptInput input);
         public Task<TournamentDto> RemoveAttemptsAsync(TournamentRemoveAttemptInput input);
         Task<PagedResultResponse<TournamentWithAttemptsDto>> GetFilteredListAsync(TournamentListInput filter);
+        Task<PagedResultResponse<TopAttemptsDto>> GetTopTenAttemptsListAsync(TopAttemptsListInput filter);
 
 
     }

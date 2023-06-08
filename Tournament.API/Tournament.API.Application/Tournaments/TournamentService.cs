@@ -67,6 +67,17 @@ namespace Tournament.API.Application.Tournaments
             return Mapper.Map<List<TournamentWithAttemptsDto>>(await _tournamentRepository.GetListAsync(x => true));
         }
 
+        public async Task<PagedResultResponse<TopAttemptsDto>> GetTopTenAttemptsListAsync(TopAttemptsListInput filter)
+        {
+            var items = await _tournamentRepository.GetTopTenAttemptsListAsync(filter.TournamentName, filter.Sorting, filter.SkipCount, filter.MaxResultCount);
+            return new PagedResultResponse<TopAttemptsDto>()
+            {
+                TotalCount = items.Count(),
+                Items = Mapper.Map<List<JumpAttemptsWithDetailView>, List<TopAttemptsDto>>(items)
+            };
+
+        }
+
         public async Task<TournamentDto> RemoveAttemptsAsync(TournamentRemoveAttemptInput input)
         {
             return Mapper.Map<TournamentDto>(await _tournamentManager.RemoveAttemtAsync(input.TournametId, input.ParticipantId, input.Distance));

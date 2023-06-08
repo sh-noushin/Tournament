@@ -15,6 +15,7 @@ namespace Tournament.API.Application.Tournaments
         {
             CreateMap<Domain.Tournaments.Tournament, TournamentDto>();
             CreateMap<TournamentWithAttemptsView, TournamentWithAttemptsDto>();
+            CreateMap<JumpAttemptsWithDetailView, TopAttemptsDto>(); 
         }
     }
 }

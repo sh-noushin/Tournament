@@ -1,0 +1,74 @@
+
+
+<div class="container">
+    <label>Tournament Name: </label>
+    <div class="filter">
+        <input              
+        type="text"              
+        class="form-control"                
+        [(ngModel)]="filter"
+        (keyup)="loadData()"
+      />
+    
+    </div>
+    <table class="table" mat-table [dataSource]="listData" class="mat-elevation-z8">          
+       
+       <ng-container matColumnDef="tournamentName">
+         <th mat-header-cell *matHeaderCellDef style="background-color: rgb(143, 146, 148);"> Tournament Name </th>
+         <td mat-cell *matCellDef="let element"> {{element.tournamentName}}
+        </td>
+       </ng-container> 
+     
+      
+       <ng-container matColumnDef="participantName">
+         <th mat-header-cell *matHeaderCellDef style="background-color: rgb(143, 146, 148);">  Participant Name </th>
+         <td mat-cell *matCellDef="let element"> {{element.participantName}} </td>
+       </ng-container> 
+       <ng-container matColumnDef="participantLastName">
+        <th mat-header-cell *matHeaderCellDef style="background-color: rgb(143, 146, 148);"> Participant Last Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.participantLastName}} </td>
+      </ng-container> 
+      <ng-container matColumnDef="distance">
+        <th mat-header-cell *matHeaderCellDef style="background-color: rgb(143, 146, 148);"> Distance </th>
+        <td mat-cell *matCellDef="let element">{{element.distance}}  </td>
+      </ng-container> 
+
+       <ng-container matColumnDef="edit">
+           <th mat-header-cell *matHeaderCellDef  style="background-color: rgb(143, 146, 148);"> Edit </th>
+           <td mat-cell *matCellDef="let element"> <button mat-icon-button matTooltip="Click to Edit" class="iconbutton"
+               color="primary" (click)="onEdit(element)">
+               <mat-icon>edit</mat-icon>
+             </button> </td>
+         </ng-container> 
+       <ng-container matColumnDef="delete">
+           <th mat-header-cell *matHeaderCellDef style="background-color: rgb(143, 146, 148);"> Delete </th>
+           <td mat-cell *matCellDef="let element"> <button mat-icon-button matTooltip="Click to Delete" class="iconbutton"
+               (click)="onDelete(element.id)" color="warn">
+               <mat-icon>delete</mat-icon>
+             </button> </td>
+         </ng-container>
+
+       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>        
+     </table>     
+
+   <div class="example-button-container">
+       <button mat-fab color="warn" (click) = "onAdd()" style="margin-left: 10px;">
+         <mat-icon>add</mat-icon>
+       </button>
+     </div>
+     <div class="tournament">
+             
+   </div>       
+     
+</div>
+
+
+
+
+
+
+
+
+
+

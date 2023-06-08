@@ -2,6 +2,7 @@
 using System.Linq.Dynamic.Core;
 using System.Security.Cryptography.X509Certificates;
 using Tournament.API.Domain.Core.Extentions;
+using Tournament.API.Domain.Participants;
 using Tournament.API.Domain.Tournaments;
 using Tournament.API.Domain.Tournaments.Views;
 using Tournament.API.EntityFrameworkCore.Core;
@@ -15,11 +16,11 @@ namespace Tournament.API.EntityFrameworkCore.Tournaments
         {
         }
 
-       
+
         public async Task<long> GetCountAsync(string filter)
         {
             var query = Db.Tournaments.AsQueryable();
-            
+
             query = ApplyFilter(query, filter);
 
             return await query.CountAsync();
@@ -36,32 +37,70 @@ namespace Tournament.API.EntityFrameworkCore.Tournaments
                     Attempts = (from jumpAttempt in Db.Set<JumpAttempt>()
                                 where jumpAttempt.TournamentId == x.Id
                                 select new JumpAttemptView
-                                {                                   
+                                {
                                     TournamentId = jumpAttempt.TournamentId,
                                     ParticipantId = jumpAttempt.ParticipantId,
-                                    Distance= jumpAttempt.Distance
+                                    Distance = jumpAttempt.Distance
                                 }).ToList()
-                });             
-                       
+                });
+
             query = ApplyFilterWithAttempts(query, filterText)
                .OrderBy(!string.IsNullOrEmpty(sorting) ? sorting : "Id asc")
                .PageBy(skipCount, maxResultCount);
-           
+
             return await query.ToListAsync();
         }
 
-        protected IQueryable<Domain.Tournaments.Tournament> ApplyFilter(IQueryable<Domain.Tournaments.Tournament> query, string filtertext)
+        public async Task<List<JumpAttemptsWithDetailView>> GetTopTenAttemptsListAsync(string filterText, string sorting, int skipCount = 0, int maxResultCount = 10)
         {
-            return query.WhereIf(!string.IsNullOrEmpty(filtertext), x => x.Name.Contains(filtertext));
+            var query = Db.JumpAttempts.OrderByDescending(x => x.Distance).AsQueryable()
 
-        }
+               .Select(x => new JumpAttemptsWithDetailView
+               {
 
-        protected IQueryable<TournamentWithAttemptsView> ApplyFilterWithAttempts(IQueryable<TournamentWithAttemptsView> query, string filtertext)
-        {
-            return query.WhereIf(!string.IsNullOrEmpty(filtertext), x => x.Name.Contains(filtertext));
+                   TournamentName = (from tournament in Db.Set<Domain.Tournaments.Tournament>()
+                                     where tournament.Id == x.TournamentId
+                                     select tournament.Name).First(),
 
-        }
+                   ParticipantName = (from participant in Db.Set<Participant>()
+                                      where participant.Id == x.ParticipantId
+                                      select participant.Name).First(),
 
+                   ParticipantLastName = (from participant in Db.Set<Participant>()
+                                          where participant.Id == x.ParticipantId
+                                          select participant.LastName).First(),
+
+                   Distance = x.Distance
+
+
+               });
+           
+
+            query = this.ApplyFilterTopAttempts(query, filterText);
+
+        query.PageBy(skipCount, maxResultCount);
+
+            return await query.ToListAsync();
+    }
+
+    protected IQueryable<Domain.Tournaments.Tournament> ApplyFilter(IQueryable<Domain.Tournaments.Tournament> query, string filtertext)
+    {
+        return query.WhereIf(!string.IsNullOrEmpty(filtertext), x => x.Name.Contains(filtertext));
 
     }
+
+    protected IQueryable<TournamentWithAttemptsView> ApplyFilterWithAttempts(IQueryable<TournamentWithAttemptsView> query, string filtertext)
+    {
+        return query.WhereIf(!string.IsNullOrEmpty(filtertext), x => x.Name.Contains(filtertext));
+
+    }
+
+    protected IQueryable<JumpAttemptsWithDetailView> ApplyFilterTopAttempts(IQueryable<JumpAttemptsWithDetailView> query, string filtertext)
+    {
+        return query.WhereIf(!string.IsNullOrEmpty(filtertext), x => x.TournamentName.Contains(filtertext));
+
+    }
+
+
+}
 }

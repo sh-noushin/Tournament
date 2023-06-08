@@ -329,6 +329,7 @@ export class ParticipantClient implements IParticipantClient {
 export interface ITournamentClient {
     create(input: TournamentCreateInput): Observable<string>;
     getList(): Observable<PagedResultResponseOfTournamentWithAttemptsDto>;
+    getTopAttempts():Observable<PagedResultResponseOfTopAttemptsDto>
     update(id: number, input: TournamentUpdateInput): Observable<string>;
     delete(id: number): Observable<string>;
     getById(id: number): Observable<TournamentDto>;
@@ -442,6 +443,55 @@ export class TournamentClient implements ITournamentClient {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = PagedResultResponseOfTournamentWithAttemptsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    getTopAttempts(): Observable<PagedResultResponseOfTopAttemptsDto> {
+        let url_ = "https://localhost:7000/Tournament" + "/TopAttempts";
+         url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            withCredentials: true,
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTopAttempts(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTopAttempts(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PagedResultResponseOfTopAttemptsDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PagedResultResponseOfTopAttemptsDto>;
+        }));
+    }
+
+    protected processGetTopAttempts(response: HttpResponseBase): Observable<PagedResultResponseOfTopAttemptsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultResponseOfTopAttemptsDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -898,6 +948,7 @@ export class PagedResultResponseOfTournamentWithAttemptsDto {
             }
         }
     }
+   
 
     static fromJS(data: any): PagedResultResponseOfTournamentWithAttemptsDto {
         data = typeof data === 'object' ? data : {};
@@ -917,6 +968,73 @@ export class PagedResultResponseOfTournamentWithAttemptsDto {
         return data;
     }
 }
+export class PagedResultResponseOfTopAttemptsDto {
+    totalCount!: number;
+    items!: TopAttemptsDto[];
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(TopAttemptsDto.fromJS(item));
+            }
+        }
+    }
+    static fromJS(data: any): PagedResultResponseOfTopAttemptsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultResponseOfTopAttemptsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export class TopAttemptsDto {
+    tournamentName!: string;
+    participantName!: string;
+    participantLastName!: string;
+    distance!: number
+
+    init(_data?: any) {
+        if (_data) {
+            this.tournamentName = _data["tournamentName"];
+            this.participantName = _data["participantName"];
+            this.participantLastName = _data["participantLastName"];
+            this.distance = _data["distance"];
+            
+        }
+    }
+
+    static fromJS(data: any): TopAttemptsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TopAttemptsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["tournamentName"] = this.tournamentName;
+        data["participantName"] = this.participantName;
+        data["iparticipantLastNamed"] = this.participantLastName;
+        data["distance"] = this.distance;
+       
+        return data;
+    }
+}
+
 
 export class TournamentWithAttemptsDto {
     id!: number;

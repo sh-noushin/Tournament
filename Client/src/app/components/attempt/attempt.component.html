@@ -1,0 +1,38 @@
+
+  
+<div class="controls">
+    <h2> Add Attempt </h2>
+  <mat-form-field>
+    <mat-label>Plaese select a Tournament</mat-label>
+
+    <mat-select (selectionChange)="setSelectedTournament($event)" >
+      <mat-option *ngFor="let x of tournaments " [value]="x" required>
+        {{x.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+     
+    <mat-label>Plaese select a Participant</mat-label>
+
+    <mat-select (selectionChange)="setSelectedParticipant($event)">
+      <mat-option *ngFor="let x of participants " [value]="x" required>
+        {{x.name + "   " + x.lastName}} 
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div>
+
+    <label class="label">Distance</label>
+    <input              
+      type="number"              
+      class="form-control"                
+      [(ngModel)]="distance"
+    />
+  </div>
+  <div class="button">
+    <button type="submit" mat-flat-button color="primary" class="btn btn-primary" (click)="save()" style="width: 80px; margin-right: 5px;">Save</button>
+    <button mat-flat-button color="primary" class="btn btn-primary" (click)="cancel()" style="width: 80px;">Cancel</button>
+  </div> 
+</div>
