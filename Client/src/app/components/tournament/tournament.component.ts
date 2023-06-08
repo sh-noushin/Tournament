@@ -14,12 +14,6 @@ export class TournamentComponent {
   @Input() id: number = 0;
   comingTournament: string = "";
 
-modification : boolean = false;
-  //@Input() modification : boolean = false;
-
-  @Output() cancelEvent = new EventEmitter<boolean>();
-
- 
   constructor(private service: TournamentClient,
     private _snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<TournamentComponent>,
@@ -27,16 +21,12 @@ modification : boolean = false;
      
 
     }
- 
-  // tournamentForm = new FormGroup({
-  //  name: new FormControl(''),
-   
-  // });
- 
    
   ngOnInit(): void {
 
-    
+    this.id = this.data.id;
+    this.comingTournament = this.data.name;
+
 
   }
  
@@ -52,8 +42,6 @@ modification : boolean = false;
       this.service.create(tournament).subscribe(
         result =>{
           this.comingTournament = "";
-          this.modification = false;
-          this.cancelEvent.emit(this.modification);
         },
         error =>{ 
           this._snackBar.open(error + "Maybe name already exists.", 'Undo');       
@@ -62,16 +50,13 @@ modification : boolean = false;
     }
     else
     {
-     
       var tournament = new TournamentUpdateInput();
       tournament.name = this.comingTournament ;
       this.service.update(this.id, tournament).subscribe(
         result =>{
-          
           this.comingTournament= "";
-          this.modification = false;
-          this.cancelEvent.emit(this.modification);
-        
+          this.dialogRef.close();
+      
         },
         error =>{
            this._snackBar.open(error + "Maybe name already exists.", 'Undo');          
@@ -83,8 +68,7 @@ modification : boolean = false;
   }
 
   cancel() {
-    this.modification = false;
-    this.cancelEvent.emit(this.modification);
+    this.dialogRef.close();
   }
 
 }

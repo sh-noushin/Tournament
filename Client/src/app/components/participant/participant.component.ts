@@ -11,18 +11,19 @@ import { ParticipantClient, ParticipantCreateInput, ParticipantUpdateInput } fro
 })
 export class ParticipantComponent {
   @Input() id: number = 0;
-  @Input() comingParticipant: ParticipantCreateInput | undefined;
-
-  @Input() modification : boolean = false;
-  @Output() cancelEvent = new EventEmitter<boolean>();
+  comingParticipant:ParticipantCreateInput= {
+    name: '',
+    lastName: '',
+    init: function (_data?: any): void {
+      throw new Error('Function not implemented.');
+    },
+    toJSON: function (data?: any) {
+      throw new Error('Function not implemented.');
+    }
+  };
   
 
-  participantForm = new FormGroup({
-    name: new FormControl(''),
-    lastName: new FormControl('')
-    
-   });
-
+  
    constructor(private service: ParticipantClient,
     private _snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<ParticipantComponent>,
@@ -30,20 +31,29 @@ export class ParticipantComponent {
      
 
     }
+ 
+    ngOnInit(): void {
 
+      this.id = this.data.id;
+      this.comingParticipant = this.data.participant;
+      
+  
+  
+    }
    save()
    {
+    
     if(this.id == 0)
     {
+     
       var participant = new ParticipantCreateInput();
-      participant.name = this.participantForm.value.name ? this.participantForm.value.name : "" ;
-      participant.lastName = this.participantForm.value.lastName ? this.participantForm.value.lastName : "" ;
+      participant.name = this.comingParticipant.name;
+      participant.lastName = this.comingParticipant.lastName ;
 
       this.service.create(participant).subscribe(
         result =>{
-          this.participantForm.reset();
-          this.modification = false;
-          this.cancelEvent.emit(this.modification);
+          this.comingParticipant.name = "";
+          this.comingParticipant.lastName ="";
         },
         error =>{ 
           this._snackBar.open(error + "Maybe this participant already exists.", 'Undo');       
@@ -54,16 +64,15 @@ export class ParticipantComponent {
     {
      debugger
       var participant = new ParticipantUpdateInput();
-      participant.name = this.participantForm.value.name ? this.participantForm.value.name : "" ;
-      participant.lastName = this.participantForm.value.lastName ? this.participantForm.value.lastName : "" ;
+      participant.name = this.comingParticipant.name;
+      participant.lastName = this.comingParticipant.lastName ;
       console.log(participant)
 
       this.service.update(this.id, participant).subscribe(
-        result =>{
-          
-          this.participantForm.reset();
-          this.modification = false;
-          this.cancelEvent.emit(this.modification);
+        result =>{          
+          this.comingParticipant.name = "";
+          this.comingParticipant.lastName ="";
+          this.dialogRef.close();
         
         },
         error =>{
@@ -76,8 +85,7 @@ export class ParticipantComponent {
 
    cancel()
    {
-    this.modification = false;
-    this.cancelEvent.emit(this.modification);
+    this.dialogRef.close();
 
    }
 }

@@ -16,8 +16,6 @@ export class TournamentListComponent {
   tableData: TournamentDto[] = [];
   displayedColumns: string[] = ['id', 'name', 'edit', 'delete'];
   listData: MatTableDataSource<any> = new MatTableDataSource<any>();
-
-  modification : boolean = false;
   tournament : TournamentCreateInput | undefined ;
   currentId: number = 0;
 
@@ -39,7 +37,6 @@ ngOnInit(): void {
 onAdd() : void
 {
   
-  this.modification = true;
    const dialogRef = this.dialog.open(TournamentComponent, {
     data: { id: this.currentId, name: this.tournament?.name },
 
@@ -47,7 +44,7 @@ onAdd() : void
     width: '400px',  });
     
     dialogRef.afterClosed().subscribe((result: any) => {
-      
+      this.loadData();
     });
   
   
@@ -55,9 +52,18 @@ onAdd() : void
 onEdit(input:any) : void
 {
  
-  this.modification = true;
   this.currentId = input.id;
   this.tournament= input;
+   const dialogRef = this.dialog.open(TournamentComponent, {
+    data: { id: this.currentId, name: this.tournament?.name },
+
+    height: '300px',  
+    width: '400px',  });
+    
+    dialogRef.afterClosed().subscribe((result: any) => {
+      this.loadData();
+    });
+  
 }
 onDelete(id:number) : void
 {
@@ -70,7 +76,6 @@ onDelete(id:number) : void
 
 onCancelModification(event: any)
 {
-   this.modification = false;
    this.loadData();
 }
 

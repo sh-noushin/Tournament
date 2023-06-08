@@ -1,27 +1,19 @@
-<form [formGroup]="participantForm" (ngSubmit)="save()" *ngIf ="modification">
-    <div class="controls">
-      <label class="label">Name</label>
-      <input
-      matInput
-        type="text"              
-        class="form-control"
-        id="name"
-        formControlName="name"
-        [value]="comingParticipant?.name"
-      />
-      <label class="label">Last Name</label>
-      <input
-      matInput
-        type="text"              
-        class="form-control"
-        id="lastName"
-        formControlName="lastName"
-        [value]="comingParticipant?.lastName"
-      />
-    </div>
-    <div class="button">
-      <button type="submit" mat-flat-button color="primary" class="btn btn-primary" style="width: 80px; margin-right: 5px;">Save</button>
-      <button mat-flat-button color="primary" class="btn btn-primary" (click)="cancel()" style="width: 80px;">Cancel</button>
-    </div> 
-             
-  </form>     
+  <div class="controls">
+    <h2> Add/Edit Participant </h2>
+  <label class="label">Participant Name</label>
+  <input              
+    type="text"              
+    class="form-control"                
+    [(ngModel)]="comingParticipant.name"
+  />
+  <label class="label">Participant Last Name</label>
+  <input              
+    type="text"              
+    class="form-control"                
+    [(ngModel)]="comingParticipant.lastName"
+  />
+  <div class="button">
+    <button type="submit" mat-flat-button color="primary" class="btn btn-primary" (click)="save()" style="width: 80px; margin-right: 5px;">Save</button>
+    <button mat-flat-button color="primary" class="btn btn-primary" (click)="cancel()" style="width: 80px;">Cancel</button>
+  </div> 
+</div>
