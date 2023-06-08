@@ -329,7 +329,7 @@ export class ParticipantClient implements IParticipantClient {
 export interface ITournamentClient {
     create(input: TournamentCreateInput): Observable<string>;
     getList(): Observable<PagedResultResponseOfTournamentWithAttemptsDto>;
-    getTopAttempts():Observable<PagedResultResponseOfTopAttemptsDto>
+    getTopAttempts(filter?:string):Observable<PagedResultResponseOfTopAttemptsDto>
     update(id: number, input: TournamentUpdateInput): Observable<string>;
     delete(id: number): Observable<string>;
     getById(id: number): Observable<TournamentDto>;
@@ -453,8 +453,8 @@ export class TournamentClient implements ITournamentClient {
         return _observableOf(null as any);
     }
 
-    getTopAttempts(): Observable<PagedResultResponseOfTopAttemptsDto> {
-        let url_ = "https://localhost:7000/Tournament" + "/TopAttempts";
+    getTopAttempts(filter?:string): Observable<PagedResultResponseOfTopAttemptsDto> {
+        let url_ = "https://localhost:7000/Tournament" + "/TopAttempts?filter=" + filter;
          url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {

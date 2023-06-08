@@ -7,7 +7,7 @@ using Tournament.API.Application.Contract.Core.Dtos.Requests;
 
 namespace Tournament.API.Application.Contract.Tournaments.Dtos.Request
 {
-    public class TopAttemptsListInput : PagedAndSorted
+    public class TopAttemptsListInput 
     {
         public string TournamentName { get; set; } = "";
     }

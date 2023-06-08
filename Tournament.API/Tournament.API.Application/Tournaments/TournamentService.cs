@@ -69,7 +69,7 @@ namespace Tournament.API.Application.Tournaments
 
         public async Task<PagedResultResponse<TopAttemptsDto>> GetTopTenAttemptsListAsync(TopAttemptsListInput filter)
         {
-            var items = await _tournamentRepository.GetTopTenAttemptsListAsync(filter.TournamentName, filter.Sorting, filter.SkipCount, filter.MaxResultCount);
+            var items = await _tournamentRepository.GetTopTenAttemptsListAsync(filter.TournamentName);
             return new PagedResultResponse<TopAttemptsDto>()
             {
                 TotalCount = items.Count(),

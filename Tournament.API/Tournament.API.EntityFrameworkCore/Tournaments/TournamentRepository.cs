@@ -51,36 +51,22 @@ namespace Tournament.API.EntityFrameworkCore.Tournaments
             return await query.ToListAsync();
         }
 
-        public async Task<List<JumpAttemptsWithDetailView>> GetTopTenAttemptsListAsync(string filterText, string sorting, int skipCount = 0, int maxResultCount = 10)
+        public async Task<List<JumpAttemptsWithDetailView>> GetTopTenAttemptsListAsync(string filterText)
         {
-            var query = Db.JumpAttempts.OrderByDescending(x => x.Distance).AsQueryable()
+            var query = Db.JumpAttempts.AsQueryable()
+                 .Join(Db.Participants, ja => ja.ParticipantId, part => part.Id,
+                 (ja, part) => new { JumpAttempt = ja, Participant = part, Tournament = ja.Tournament })
+                 .WhereIf(!string.IsNullOrEmpty(filterText), x => x.Tournament.Name.Contains(filterText));
+            return (await query.ToListAsync()).GroupBy(x => new { Tid = x.Tournament.Id, PId = x.Participant.Id })
+                            .Select(x => new JumpAttemptsWithDetailView
+                            {
+                                ParticipantName = x.ElementAt(0).Participant.Name,
+                                ParticipantLastName = x.ElementAt(0).Participant.LastName,
+                                TournamentName = x.ElementAt(0).Tournament.Name,
+                                Distance = x.Max(i => i.JumpAttempt.Distance)
+                            }).Take(10).OrderByDescending(d => d.Distance).ToList();
 
-               .Select(x => new JumpAttemptsWithDetailView
-               {
-
-                   TournamentName = (from tournament in Db.Set<Domain.Tournaments.Tournament>()
-                                     where tournament.Id == x.TournamentId
-                                     select tournament.Name).First(),
-
-                   ParticipantName = (from participant in Db.Set<Participant>()
-                                      where participant.Id == x.ParticipantId
-                                      select participant.Name).First(),
-
-                   ParticipantLastName = (from participant in Db.Set<Participant>()
-                                          where participant.Id == x.ParticipantId
-                                          select participant.LastName).First(),
-
-                   Distance = x.Distance
-
-
-               });
            
-
-            query = this.ApplyFilterTopAttempts(query, filterText);
-
-        query.PageBy(skipCount, maxResultCount);
-
-            return await query.ToListAsync();
     }
 
     protected IQueryable<Domain.Tournaments.Tournament> ApplyFilter(IQueryable<Domain.Tournaments.Tournament> query, string filtertext)
@@ -94,12 +80,7 @@ namespace Tournament.API.EntityFrameworkCore.Tournaments
         return query.WhereIf(!string.IsNullOrEmpty(filtertext), x => x.Name.Contains(filtertext));
 
     }
-
-    protected IQueryable<JumpAttemptsWithDetailView> ApplyFilterTopAttempts(IQueryable<JumpAttemptsWithDetailView> query, string filtertext)
-    {
-        return query.WhereIf(!string.IsNullOrEmpty(filtertext), x => x.TournamentName.Contains(filtertext));
-
-    }
+            
 
 
 }

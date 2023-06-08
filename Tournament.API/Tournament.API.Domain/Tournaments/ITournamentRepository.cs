@@ -12,7 +12,7 @@ namespace Tournament.API.Domain.Tournaments
     {
         Task<long> GetCountAsync(string filter);
         Task<List<TournamentWithAttemptsView>> GetFilteredListAsync(string filterText, string sorting, int skipCount = 0, int maxResultCount = 10);
-        Task<List<JumpAttemptsWithDetailView>> GetTopTenAttemptsListAsync(string filterText, string sorting, int skipCount = 0, int maxResultCount = 10);
+        Task<List<JumpAttemptsWithDetailView>> GetTopTenAttemptsListAsync(string filterText);
       
     }
 }

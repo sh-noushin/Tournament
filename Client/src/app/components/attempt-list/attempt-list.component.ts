@@ -62,8 +62,8 @@ export class AttemptListComponent {
   }
 
   loadData() {
-    
-    this.service.getTopAttempts().subscribe(data => {
+
+    this.service.getTopAttempts(this.filter).subscribe(data => {
     this.listData = new MatTableDataSource(data.items);
 
     });
